@@ -1,0 +1,16 @@
+[
+  {
+    "source": "answers",
+    "context": "flow2",
+    "type": "button",
+    "text": 3,
+    "value": 3
+  },
+  {
+    "source": "not answers",
+    "context": "flow2",
+    "type": "button",
+    "text": "OK",
+    "value": true
+  }
+]

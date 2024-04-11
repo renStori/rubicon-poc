@@ -1,0 +1,16 @@
+[
+  {
+    "source": "answers",
+    "context": "contract_signed",
+    "type": "button",
+    "text": "Sign Contract",
+    "value": true
+  },
+  {
+    "source": "answers",
+    "context": "contract_signed",
+    "type": "button",
+    "text": "Decline Contract",
+    "value": false
+  }
+]

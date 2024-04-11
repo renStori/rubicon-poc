@@ -1,0 +1,23 @@
+[
+  {
+    "source": "response",
+    "context": "flow1",
+    "type": "button",
+    "text": 2,
+    "value": 2
+  },
+  {
+    "source": "response",
+    "context": "flow1",
+    "type": "button",
+    "text": 2,
+    "value": 2
+  },
+  {
+    "source": "response",
+    "context": "flow1",
+    "type": "button",
+    "text": "OK",
+    "value": true
+  }
+]

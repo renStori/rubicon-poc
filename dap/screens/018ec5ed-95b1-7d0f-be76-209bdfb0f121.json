@@ -1,0 +1,23 @@
+[
+  {
+    "source": "answers",
+    "context": "product_category_selected",
+    "type": "button",
+    "text": "Only Credit",
+    "value": "only_credit"
+  },
+  {
+    "source": "answers",
+    "context": "product_category_selected",
+    "type": "button",
+    "text": "Credit And Deposits",
+    "value": "credit_and_deposits"
+  },
+  {
+    "source": "answers",
+    "context": "product_category_selected",
+    "type": "button",
+    "text": "Only Deposits",
+    "value": "only_deposits"
+  }
+]

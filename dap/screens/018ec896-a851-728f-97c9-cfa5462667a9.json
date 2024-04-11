@@ -1,0 +1,9 @@
+[
+  {
+    "source": "answers",
+    "context": "payment_received",
+    "type": "button",
+    "text": "Continue",
+    "value": "continue"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "source": "answers",
+    "context": "is_finished",
+    "type": "button",
+    "text": "Continue",
+    "value": true
+  },
+  {
+    "source": "answers",
+    "context": "is_finished",
+    "type": "button",
+    "text": "Cancel",
+    "value": false
+  }
+]

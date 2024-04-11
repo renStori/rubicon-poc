@@ -1,0 +1,16 @@
+[
+  {
+    "source": "answers",
+    "context": "credit_product_selected",
+    "type": "button",
+    "text": "Credit Card Products",
+    "value": "credit_card_products"
+  },
+  {
+    "source": "answers",
+    "context": "credit_product_selected",
+    "type": "button",
+    "text": "Loan Products",
+    "value": "loan_products"
+  }
+]

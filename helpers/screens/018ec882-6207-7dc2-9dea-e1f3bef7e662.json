@@ -1,0 +1,44 @@
+[
+  {
+    "source": "answers",
+    "context": "flow13",
+    "type": "button",
+    "text": 18,
+    "value": 18
+  },
+  {
+    "source": "answers",
+    "context": "flow13",
+    "type": "button",
+    "text": 19,
+    "value": 19
+  },
+  {
+    "source": "answers",
+    "context": "flow13",
+    "type": "button",
+    "text": 20,
+    "value": 20
+  },
+  {
+    "source": "answers",
+    "context": "flow13",
+    "type": "button",
+    "text": 21,
+    "value": 21
+  },
+  {
+    "source": "answers",
+    "context": "flow13",
+    "type": "button",
+    "text": 22,
+    "value": 22
+  },
+  {
+    "source": "not answers",
+    "context": "flow13",
+    "type": "button",
+    "text": "OK",
+    "value": true
+  }
+]

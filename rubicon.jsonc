@@ -1,0 +1,397 @@
+[
+  {
+    "index": 0,
+    "name": "App Entrance",
+    "process": "018ec5df-406f-7af5-a92f-011403eb0f7a",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.app_entrance == 'continue'",
+        "output": 1
+      }
+    ]
+  },
+  {
+    "index": 1,
+    "name": "Auth Flow",
+    "process": "018ec5e7-1ee9-718b-abb7-6bf6dac44c65",
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.user_type == 'user'",
+        "output": 2
+      },
+      {
+        "rule": "response.user_type == 'applicant'",
+        "output": 2 // How to redirect to current flow (the one the user is at the middle of)? Do we need it?
+      },
+      {
+        "rule": "response.user_type == 'client'",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 2,
+    "name": "DAP Deposits L1",
+    "process": "018ec5ed-7562-719b-b09a-37a143a7733b",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.is_finished",
+        "output": 3
+      },
+      {
+        "rule": "not answers.is_finished",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "name": "Product Category Selector",
+    "process": "018ec5ed-95b1-7d0f-be76-209bdfb0f121",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.product_category_selected == 'only_credit'",
+        "output": 5
+      },
+      {
+        "rule": "answers.product_category_selected == 'credit_and_deposits'",
+        "output": 4
+      },
+      {
+        "rule": "answers.product_category_selected == 'only_deposits'",
+        "output": 4
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "name": "Deposits Contract Signing",
+    "process": "018ec5f0-4e7f-74b4-bb28-4aae6aed4dcf",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.contract_signed and answers.product_category_selected == 'credit_and_deposits'", // How do we get answers in previous processes?
+        "output": 5
+      },
+      {
+        "rule": "answers.contract_signed and answers.product_category_selected == 'only_deposits'",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "name": "Credit Products Selector",
+    "process": "018ec5f0-6923-7087-9ff5-98d8e204dc6d",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.credit_product_selected == 'credit_card_products'",
+        "output": 6
+      },
+      {
+        "rule": "answers.credit_product_selected == 'loan_products'",
+        "output": 7
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "name": "DAP Credit L1",
+    "process": "018ec5f0-8249-7b4b-86d6-82027ad9599a",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.is_finished",
+        "output": 8
+      },
+      {
+        "rule": "not answers.is_finished",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "name": "DAP Loan L1",
+    "process": "018ec5f6-c6db-759b-a32c-d0105bcdd3b4",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.is_finished",
+        "output": 9
+      },
+      {
+        "rule": "not answers.is_finished",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "name": "KYC Credit Card Products L1",
+    "process": "someFancyDeeplinkForTheRouter-KYC?product=credit&level=1", // We should pass params for the KYC module?
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful", // Does the client will respond directly to the orchestrator when KYC is done?
+        "output": 10
+      },
+      {
+        "rule": "not response.successful",
+        "output": -9999
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "name": "KYC Loan Product L1",
+    "process": "someFancyDeeplinkForTheRouter-KYC?product=loan&level=1", // We should pass params for the KYC module?
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful", // Does the client will respond directly to the orchestrator when KYC is done?
+        "output": 10
+      },
+      {
+        "rule": "not response.successful",
+        "output": -9999
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "name": "Dynamic Offer Screen",
+    "process": "018ec5f9-6cfe-7503-9fa1-5960c627f050", // How we make this the whole DOS process in one DAP process?
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.offer_accepted and offer.credit_line_udis >= 3000 and answers.product_offered in common.credit_card_products", // How do we get answers in previous processes?
+        "output": 11 // L2 Flow for credit cards
+      },
+      {
+        "rule": "answers.offer_accepted and offer.credit_line_udis >= 3000 and answers.product_offered in common.loan_products", // How do we get answers in previous processes?
+        "output": 12 // L2 Flow for loans
+      },
+      {
+        "rule": "answers.offer_accepted and offer.credit_line_udis < 3000",
+        "output": 13 // L1 Flow (Open Fee && Non-Open fee)
+      },
+      {
+        "rule": "not answers.offer_accepted",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "name": "KYC Credit Card Products L2",
+    "process": "someFancyDeeplinkForTheRouter-KYC?product=credit&level=2", // We should pass params for the KYC module?
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful", // Does the client will respond directly to the orchestrator when KYC is done?
+        "output": 14 // L2 Flow for credit cards
+      },
+      {
+        "rule": "not response.successful",
+        "output": -9999
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "name": "KYC Loan Products L2",
+    "process": "someFancyDeeplinkForTheRouter-KYC?product=loan&level=2", // We should pass params for the KYC module?
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful", // Does the client will respond directly to the orchestrator when KYC is done?
+        "output": 15 // L2 Flow for loans
+      },
+      {
+        "rule": "not response.successful",
+        "output": -9999
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "name": "Sign contract for less than 3000 UDIs",
+    "process": "018ec882-6207-7dc2-9dea-e1f3bef7e662",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.contract_signed and offer.open_fee == 0 and offer.credit_line == 0",
+        "output": 18 // Secured Card Flow
+      },
+      {
+        "rule": "answers.contract_signed and offer.open_fee > 0 and offer.credit_line > 0",
+        "output": 19 // Credit Cards Open Fee Flow
+      },
+      {
+        "rule": "answers.contract_signed and offer.open_fee > 0 and offer.credit_line > 0",
+        "output": 20 // Loans Open Fee Flow
+      },
+      {
+        "rule": "answers.contract_signed and offer.open_fee == 0 and offer.credit_line > 0",
+        "output": 21 // Credit Cards Non-Open Fee Flow
+      },
+      {
+        "rule": "answers.contract_signed and offer.open_fee == 0 and offer.credit_line > 0",
+        "output": 22 // Loans Non-Open Fee Flow
+      },
+      {
+        "rule": "not answers.contract_signed",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "name": "DAP Credit Cards L2",
+    "process": "018ec87e-ca4d-7357-8016-30a2a5a787ef",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.is_finished",
+        "output": 16 // Sign contract for Credit Cards L2
+      },
+      {
+        "rule": "not answers.is_finished",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "name": "DAP Loans L2",
+    "process": "018ec881-423a-747b-822a-6c456302437b",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.is_finished",
+        "output": 17 // Sign contract for Loan L2
+      },
+      {
+        "rule": "not answers.is_finished",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "name": "Sign contract for credit cards above or equal to 3000 UDIs",
+    "process": "018ec887-2883-7915-8426-8c6fbf349249",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.contract_signed",
+        "output": 21 // Delivery Address
+      },
+      {
+        "rule": "not answers.contract_signed",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "name": "Sign contract for Loans above or equal to 3000 UDIs",
+    "process": "018ec887-5010-7ec6-b71a-ba33d593e339",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.contract_signed",
+        "output": 22 // CLABE Validation
+      },
+      {
+        "rule": "not answers.contract_signed",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "name": "Secure Card Waiting Screen", // ????
+    "process": "018ec892-e87d-76fa-af4d-d7761d3bb1df",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.secured_card_waiting == 'continue'",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "name": "Credit Card Open Fee Payment Screen",
+    "process": "018ec894-9496-7f1b-80cd-57a0263aecf5",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.payment_received == 'continue'",
+        "output": 21
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "name": "Loans Open Fee Payment Screen",
+    "process": "018ec896-a851-728f-97c9-cfa5462667a9",
+    "environment": "dap",
+    "branches": [
+      {
+        "rule": "answers.payment_received == 'continue'",
+        "output": 22
+      },
+    ]
+  },
+  {
+    "index": 21,
+    "name": "Delivery Address",
+    "process": "someFancyDeeplinkForTheRouter-DeliveryAddress",
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "name": "CLABE Validation",
+    "process": "someFancyDeeplinkForTheRouter-CLABEValidation",
+    "environment": "native",
+    "branches": [
+      {
+        "rule": "response.successful",
+        "output": -1
+      }
+    ]
+  },
+  {
+    "index": -1,
+    "name": "Drop to Home",
+    "process": "someFancyDeeplinkForTheRouter-Home",
+    "environment": "native",
+    "branches": []
+  }
+  // {
+  //   "index": ,
+  //   "name": "",
+  //   "process": "",
+  //   "environment": "dap",
+  //   "branches": [
+  //     {
+  //       "rule": "",
+  //       "output":
+  //     },
+  //   ]
+  // }
+]

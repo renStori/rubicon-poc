@@ -1,0 +1,9 @@
+[
+  {
+    "source": "answers",
+    "context": "flow18",
+    "type": "button",
+    "text": "OK",
+    "value": true
+  }
+]

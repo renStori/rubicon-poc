@@ -1,0 +1,9 @@
+[
+  {
+    "source": "response",
+    "context": "flow22",
+    "type": "button",
+    "text": "OK",
+    "value": true
+  }
+]

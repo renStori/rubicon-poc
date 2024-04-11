@@ -1,0 +1,9 @@
+[
+  {
+    "source": "answers",
+    "context": "secured_card_waiting",
+    "type": "button",
+    "text": "Continue",
+    "value": "continue"
+  }
+]

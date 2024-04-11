@@ -1,0 +1,9 @@
+[
+  {
+    "source": "response",
+    "context": "successful",
+    "type": "button",
+    "text": "Pago Recibido",
+    "value": true
+  }
+]

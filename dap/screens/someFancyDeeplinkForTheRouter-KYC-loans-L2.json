@@ -1,0 +1,16 @@
+[
+  {
+    "source": "response",
+    "context": "successful",
+    "type": "button",
+    "text": "KYC Completed Successfully",
+    "value": true
+  },
+  {
+    "source": "response",
+    "context": "successful",
+    "type": "button",
+    "text": "KYC Failed",
+    "value": false
+  }
+]

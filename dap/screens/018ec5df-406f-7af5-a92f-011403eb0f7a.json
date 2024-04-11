@@ -1,0 +1,9 @@
+[
+  {
+    "source": "answers",
+    "context": "app_entrance",
+    "type": "button",
+    "text": "continue",
+    "value": "continue"
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "source": "response",
+    "context": "user_type",
+    "type": "button",
+    "text": "User",
+    "value": "user"
+  },
+  {
+    "source": "response",
+    "context": "user_type",
+    "type": "button",
+    "text": "Applicant",
+    "value": "applicant"
+  },
+  {
+    "source": "response",
+    "context": "user_type",
+    "type": "button",
+    "text": "Client",
+    "value": "client"
+  }
+]
